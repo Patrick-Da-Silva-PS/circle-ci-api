@@ -13,10 +13,15 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '14.18.1'
-      - name: yarn install, test and build
-        run: |
-          yarn install --frozen-lockfile
-          yarn test
-          yarn build
+      - name: npm installation process
+        run: yarn install --frozen-lockfile
+        env:
+          CI: true
+      - name: Running test suites
+        run: yarn test
+        env:
+          CI: true
+      - name: Creating build
+        run: yarn build
         env:
           CI: true
