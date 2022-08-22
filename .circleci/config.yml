@@ -13,7 +13,7 @@ orbs:
 jobs:
   build:
     docker: 
-      - image: "circleci/node@5.0.2"
+      - image: "node:latest"
     steps:
       - checkout
       - node/install-packages:
@@ -23,7 +23,7 @@ jobs:
           command: yarn build
   test:
     docker: 
-      - image: "circleci/node@5.0.2"
+      - image: "node:latest"
     steps:
       - checkout
       - node/install-packages:
