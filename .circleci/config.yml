@@ -12,10 +12,9 @@ orbs:
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
   build:
-    working_directory: /usr/src/app
     docker: 
-      - image: "circle-ci-api"
-    steps: 
+      - image: "circleci/node@5.0.2"
+    steps:
       - checkout
       - node/install-packages:
           pkg-manager: "yarn"
@@ -23,10 +22,9 @@ jobs:
           name: Build process
           command: yarn build
   test:
-    working_directory: /usr/src/app  
     docker: 
-      - image: "circle-ci-api"
-    steps: 
+      - image: "circleci/node@5.0.2"
+    steps:
       - checkout
       - node/install-packages:
           pkg-manager: "yarn"
