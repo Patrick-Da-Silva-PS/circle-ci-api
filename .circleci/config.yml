@@ -1,0 +1,45 @@
+# Use the latest 2.1 version of CircleCI pipeline process engine.
+# See: https://circleci.com/docs/2.0/configuration-reference
+version: 2.1
+
+orbs:
+  # The Node.js orb contains a set of prepackaged CircleCI configuration you can utilize
+  # Orbs reduce the amount of configuration required for common tasks.
+  # See the orb documentation here: https://circleci.com/developer/orbs/orb/circleci/node
+  node: circleci/node@5
+
+# Define a job to be invoked later in a workflow.
+# See: https://circleci.com/docs/2.0/configuration-reference/#jobs
+jobs:
+  build:
+    working_directory: /usr/src/app
+    docker: 
+      - image: "circle-ci-api"
+    steps: 
+      - checkout
+      - node/install-packages:
+          pkg-manager: "yarn"
+      - run: 
+          name: Build process
+          command: yarn build
+  test:
+    working_directory: /usr/src/app  
+    docker: 
+      - image: "circle-ci-api"
+    steps: 
+      - checkout
+      - node/install-packages:
+          pkg-manager: "yarn"
+      - run: 
+          name: Test suite
+          command: yarn test
+
+# Invoke jobs via workflows
+# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
+workflows:
+  integration:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
