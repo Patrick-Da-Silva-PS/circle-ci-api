@@ -1,0 +1,33 @@
+name: ci-example
+on: 
+  push:
+    branches: 
+      - github-actions
+  workflow_dispatch:
+jobs:
+  install-test-build:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        node-version: 
+          - "14.18.1"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: npm installation process
+        run: yarn install --frozen-lockfile
+        env:
+          CI: true
+      - name: Running test suites
+        run: yarn test
+        env:
+          CI: true
+      - name: Creating build
+        run: yarn build
+        env:
+          CI: true
+ 
