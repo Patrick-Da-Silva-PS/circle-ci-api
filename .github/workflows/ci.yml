@@ -3,6 +3,7 @@ on:
   push:
     branches: 
       - github-actions
+  workflow_dispatch:
 jobs:
   install-test-build:
     runs-on: ubuntu-20.04
