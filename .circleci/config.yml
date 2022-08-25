@@ -11,26 +11,26 @@ orbs:
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-  build:
+  install-test-build:
     docker: 
       - image: "node:latest"
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: "yarn"
-      - run: 
-          name: Build process
-          command: yarn build
-  test:
-    docker: 
-      - image: "node:latest"
-    steps:
-      - checkout
-      - node/install-packages:
-          pkg-manager: "yarn"
-      - run: 
-          name: Test suite
-          command: yarn test
+      - when:
+          condition:
+            equal: 
+              - circle-ci
+              - << pipeline.git.branch >>
+          steps: 
+            - node/install-packages:
+                pkg-manager: "yarn"
+            - run: 
+                name: Running unit and integration tests
+                command: yarn test
+            - run: 
+                name: Running build process
+                command: yarn build
+  # dockerize:
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
