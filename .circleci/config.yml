@@ -37,7 +37,4 @@ jobs:
 workflows:
   integration:
     jobs:
-      - build
-      - test:
-          requires:
-            - build
+      - install-test-build
